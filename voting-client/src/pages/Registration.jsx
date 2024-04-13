@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import getWeb3 from "../../../client/src/getWeb3";
+import getWeb3 from "../utilities/connectWeb3";
 import Button from "../components/Button";
 import Heading from "../components/Heading";
 import Section from "../components/Section";

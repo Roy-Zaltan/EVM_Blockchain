@@ -1,7 +1,7 @@
 import React from "react";
 import Section from "../components/Section";
 import Election from "../contracts/Election.json";
-import getWeb3 from "../../../client/src/getWeb3";
+import getWeb3 from "../utilities/connectWeb3";
 import { useEffect } from "react";
 import Heading from "../components/Heading";
 import Button from "../components/Button";

@@ -4,7 +4,7 @@ import Heading from "../components/Heading";
 import { Link } from "react-router-dom";
 import Button from "../components/Button";
 import Election from "../contracts/Election.json";
-import getWeb3 from "../../../client/src/getWeb3";
+import getWeb3 from "../utilities/connectWeb3";
 import { useEffect } from "react";
 
 const loadAddedCandidates = (candidates) => {

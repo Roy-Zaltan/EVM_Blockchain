@@ -1,10 +1,11 @@
 import React from "react";
 import Section from "../components/Section";
 import NotInitialised from "../components/shared/NotInitialised";
-import getWeb3 from "../../../client/src/getWeb3";
+import getWeb3 from "../utilities/connectWeb3";
 import Election from "../contracts/Election.json";
 import Heading from "../components/Heading";
 import Button from "../components/Button";
+import Verification from "../components/Voting/Verification";
 const Voting = () => {
   const [registeredVoters, setRegisteredVoters] = React.useState(0);
   const [electionInstance, setElectionInstance] = React.useState(null);
@@ -25,6 +26,7 @@ const Voting = () => {
     isVerified: false,
     hasVoted: false,
   });
+  const [votedCandidate, setVotedCandidate] = React.useState(null);
   const candidateCount = candidates.length;
 
   const formRef = React.useRef(null);
@@ -53,7 +55,7 @@ const Voting = () => {
         setWeb3(web3);
         setAccount(accounts[0]);
         const admin = await instance.methods.admin().call();
-        
+
         const start = await instance.methods.getStart().call();
         setElStarted(start);
         const end = await instance.methods.getEnd().call();
@@ -79,7 +81,7 @@ const Voting = () => {
         setIsAdmin(admin === accounts[0]);
         const totalVoter = await instance.methods.getTotalVoter().call();
 
-        console.log("admin", admin === accounts[0],accounts[0],totalVoter);
+        console.log("admin", admin === accounts[0], accounts[0], totalVoter);
         const voter = await instance.methods.voterDetails(accounts[0]).call();
         console.log("voter", voter);
         setCurrentVoter((currentvoter) => ({
@@ -108,18 +110,6 @@ const Voting = () => {
       </>
     );
   }
-  // if (!isAdmin) {
-  //   return (
-  //     <Section>
-  //       <div className="container">
-  //         <Heading
-  //           title="Voting Page"
-  //           text="You are not authorized to view this page."
-  //         />
-  //       </div>
-  //     </Section>
-  //   );
-  // }
   if (!elStarted && !elEnded) {
     return <NotInitialised />;
   }
@@ -177,7 +167,7 @@ const Voting = () => {
       }
     };
     return (
-      <div className="container">
+      <div className="container relative">
         <div className="container-main">
           <Heading
             title="Candidates"
@@ -202,7 +192,11 @@ const Voting = () => {
                   <Button
                     className="min-w-[200px] my-3"
                     onClick={() => {
-                      confirmVote(candidate.id, candidate.header);
+                      setVotedCandidate({
+                        id: candidate.id,
+                        header: candidate.header,
+                        phone: currentvoter.phone,
+                      });
                     }}
                   >
                     Vote
@@ -212,6 +206,13 @@ const Voting = () => {
             ))}
           </div>
         </div>
+        <dialog
+          id="modal"
+          class="modal absolute left-0 right-0 top-0 bottom-0 h-screen w-[100%] z-[100]  bg-red-500"
+          open={votedCandidate !== null}
+        >
+          <Verification votedCandidate={votedCandidate} confirmVote={confirmVote}/>
+        </dialog>
       </div>
     );
   };

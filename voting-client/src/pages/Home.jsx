@@ -1,7 +1,7 @@
 import React from "react";
 import Hero from "../components/Hero";
 import { useEffect } from "react";
-import getWeb3 from "../../../client/src/getWeb3";
+import getWeb3 from "../utilities/connectWeb3";
 import Election from "../contracts/Election.json";
 import Section from "../components/Section";
 import Heading from "../components/Heading";
