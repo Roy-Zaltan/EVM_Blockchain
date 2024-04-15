@@ -153,7 +153,7 @@ const AdminHome = ({
                       Go to{" "}
                       <Link
                         title="Add a new "
-                        to="/addCandidate"
+                        to="/add-candidate"
                         className="underline italic"
                       >
                         add candidates

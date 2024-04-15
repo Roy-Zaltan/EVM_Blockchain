@@ -40,28 +40,27 @@ export const navigation = [
   {
     id: "0",
     title: "Add Candidate",
-    url: "#features",
+    url: "add-candidate",
   },
   {
     id: "1",
     title: "Voting",
-    url: "#pricing",
+    url: "voting",
   },
   {
     id: "2",
     title: "Results",
-    url: "#how-to-use",
+    url: "results",
   },
   {
     id: "3",
     title: "Verification",
-    url: "#roadmap",
+    url: "/verification",
   },
   {
     id: "4",
-    title: "Verification",
-    url: "#signup",
-    onlyMobile: true,
+    title: "How it Works",
+    url: "/verification",
   },
   {
     id: "5",

@@ -20,9 +20,7 @@ const loadAddedCandidates = (candidates) => {
       {candidates.map((candidate, index) => {
         return (
           <div className="container-list success w-full">
-            <div
-              className="flex justify-start items-center gap-3"
-            >
+            <div className="flex justify-start items-center gap-3">
               {candidate.id ?? 1}
               {index + 1}. <strong>{candidate.header ?? "BJP"}</strong>
               {candidate.slogan ?? "sabka sath sabka bikas"}
@@ -66,11 +64,9 @@ const AddCandidate = () => {
         setWeb3(web3);
         setAccount(accounts[0]);
         const admin = await instance.methods.admin().call();
-        console.log('admin',instance);
-        const candidateCnt = await instance?.methods
-          .getTotalCandidate()
-          .call();
-          // console.log('candidate Count',candidateCnt);
+        console.log("admin", instance);
+        const candidateCnt = await instance?.methods.getTotalCandidate().call();
+        // console.log('candidate Count',candidateCnt);
         setCandidateCount(candidateCnt);
         let _candidates = [];
         for (let i = 0; i < candidateCnt; i++) {
@@ -78,7 +74,7 @@ const AddCandidate = () => {
             .candidateDetails(i)
             .call();
 
-            console.log('candidateDetails',candidateDetails);
+          console.log("candidateDetails", candidateDetails);
           _candidates.push({
             id: candidateDetails.candidateId,
             header: candidateDetails.header,
@@ -96,7 +92,7 @@ const AddCandidate = () => {
 
   const addCandidate = async (event) => {
     event.preventDefault();
-    console.log(isAdmin)
+    console.log(isAdmin);
     console.log(ref.current);
     const formData = new FormData(ref.current);
     const formDataObject = {};
@@ -107,12 +103,19 @@ const AddCandidate = () => {
     // const header = event.target.elements[0].value;
     // const slogan = event.target.elements[1].value;
     try {
-      const header = formDataObject.floating_first_name + " " + formDataObject.floating_last_name;
+      const header =
+        formDataObject.floating_first_name +
+        " " +
+        formDataObject.floating_last_name;
       const slogan = formDataObject.slogan;
-      await electionInstance?.methods.addCandidate(header, slogan).send({ from: account ,gas:1000000});
-      window.location.reload();
+      await electionInstance?.methods
+        .addCandidate(header, slogan)
+        .send({ from: account, gas: 1000000 });
+        console.log("candidate added");
     } catch (error) {
       console.error(error);
+    } finally {
+      window.location.reload();
     }
   };
 
@@ -125,14 +128,14 @@ const AddCandidate = () => {
       </>
     );
   }
-  if(!isAdmin){
-    return <>
-      <div className="flex-1 h-full w-full">
-        <center>
-          You are not authorized to access this page.
-        </center>
-      </div>
-    </>
+  if (!isAdmin) {
+    return (
+      <>
+        <div className="flex-1 h-full w-full">
+          <center>You are not authorized to access this page.</center>
+        </div>
+      </>
+    );
   }
   return (
     <>
