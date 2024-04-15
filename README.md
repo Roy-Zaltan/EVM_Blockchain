@@ -58,7 +58,7 @@
 6. Launch the development server (frontend)
 
    ```shell
-   cd client
+   cd voting-client
    npm install
-   npm start
+   npm run dev
    ```
