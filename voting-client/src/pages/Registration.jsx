@@ -78,7 +78,6 @@ const Registration = () => {
             ...voterDetails,
             isRegistered: voterDetails?.isRegistered,
             isVerified: voterDetails?.isVerified,
-            isRegistered: voterDetails?.isRegistered,
             isAadharVerified: voterDetails?.aadharVerified,
             name: voterDetails?.name,
             phone: voterDetails?.phone,
