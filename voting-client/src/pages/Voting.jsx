@@ -230,7 +230,7 @@ const Voting = () => {
               <p className="body-2 mt-4 text-n-4">
                 You are not registered to vote. Please register first.
               </p>
-              <Button className="min-w-[200px]" href={"/registrations"}>
+              <Button className="min-w-[200px]" href={"/registration"}>
                 Registration Page
               </Button>
             </div>

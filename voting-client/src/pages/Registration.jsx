@@ -71,7 +71,7 @@ const Registration = () => {
           formRef.current["floating_first_name"].value =
             voterDetails?.name?.split(" ")[0] ?? "";
           formRef.current["floating_last_name"].value =
-            voterDetails?.name?.split(" ")[2] ?? "";
+            voterDetails?.name?.split(" ")[1] ?? "";
           formRef.current["phone_number"].value = voterDetails?.phone;
           formRef.current["aadhar_number"].value = voterDetails?.aadhar;
           setVoterDetails((voterDetails) => ({

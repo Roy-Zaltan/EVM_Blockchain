@@ -102,6 +102,7 @@ const VerificationPage = () => {
   }
 
   const renderUnverifiedVoters = (voter) => {
+    console.log("voter", voter);
     const verifyVoter = async (verifiedStatus, address) => {
       try {
         await electionInstance.methods
@@ -130,7 +131,7 @@ const VerificationPage = () => {
                 Name: <span className="text-n-2">{voter?.name}</span>
               </p>
               <p className="">
-                Phone: <span className="text-n-2">{`+91 ${voter.phone}`}</span>
+                Phone: <span className="text-n-2">{`${voter.phone}`}</span>
               </p>
               <p className=" col-span-1">
                 Aadhar Number: <span className="text-n-2">{voter?.aadhar}</span>

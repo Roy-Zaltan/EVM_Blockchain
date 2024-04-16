@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Chart from "react-apexcharts";
 import Section from "../components/Section";
 import NotInitialised from "../components/shared/NotInitialised";
 import getWeb3 from "../utilities/connectWeb3";
@@ -26,8 +27,13 @@ const Results = () => {
     hasVoted: false,
   });
   const candidateCount = candidates.length;
-
-  const formRef = React.useRef(null);
+  const [labels, setLabels] = useState([
+    "Apple",
+    "Mango",
+    "Orange",
+    "Watermelon",
+  ]);
+  const [series, setSeries] = useState([44, 55, 41, 17, 15]);
   React.useEffect(() => {
     const loadWeb3 = async () => {
       if (!window.location.hash) {
@@ -53,13 +59,15 @@ const Results = () => {
         setWeb3(web3);
         setAccount(accounts[0]);
         const admin = await instance.methods.admin().call();
-        
+
         const start = await instance.methods.getStart().call();
         setElStarted(start);
         const end = await instance.methods.getEnd().call();
         setElEnded(end);
 
         // Total number of voters
+        const _label = [];
+        const _series = [];
         const voterCount = await instance.methods.getTotalVoter().call();
         setRegisteredVoters(voterCount);
         const candidateCnt = await instance.methods.getTotalCandidate().call();
@@ -68,19 +76,22 @@ const Results = () => {
           const candidateDetails = await instance?.methods
             .candidateDetails(i)
             .call();
-
-            console.log("candidateDetails", candidateDetails);
+          _label.push(candidateDetails.header);
+          _series.push(parseInt(candidateDetails.voteCount));
           _candidates.push({
             id: candidateDetails.candidateId,
             header: candidateDetails.header,
             slogan: candidateDetails.slogan,
           });
         }
+        setLabels(_label);
+        setSeries(_series);
+        console.log("data", _label, _series);
         setCandidates(_candidates);
         setIsAdmin(admin === accounts[0]);
         const totalVoter = await instance.methods.getTotalVoter().call();
 
-        console.log("admin", admin === accounts[0],accounts[0],totalVoter);
+        console.log("admin", admin === accounts[0], accounts[0], totalVoter);
         const voter = await instance.methods.voterDetails(accounts[0]).call();
         console.log("voter", voter);
         setCurrentVoter((currentvoter) => ({
@@ -94,12 +105,33 @@ const Results = () => {
           isVerified: voter.isVerified,
           hasVoted: voter.hasVoted,
         }));
+        const details = await instance?.methods?.getElectionDetails().call();
+        setElDetails((elDetails) => ({
+          adminName: details?.adminName,
+          adminEmail: details?.adminEmail,
+          adminTitle: details?.adminTitle,
+          electionTitle: details?.electionTitle,
+          organizationTitle: details?.organizationTitle,
+        }));
       } catch (error) {
         console.error(error);
       }
     };
     loadWeb3();
   }, []);
+  const showWinner = () => {
+    let winner = "It is a tie!";
+    let winnerVotes = candidates[0].voteCount;
+    let isTie = true;
+    candidates?.forEach((candidate) => {
+      if (candidate.voteCount > winnerVotes) {
+        winnerVotes = candidate.voteCount;
+        winner = candidate.header;
+        isTie = false;
+      }
+    });
+    return isTie ? winner : `${winner} is the winner with ${winnerVotes} votes`;
+  };
   if (!web3) {
     return (
       <>
@@ -109,26 +141,14 @@ const Results = () => {
       </>
     );
   }
-  // if (!isAdmin) {
-  //   return (
-  //     <Section>
-  //       <div className="container">
-  //         <Heading
-  //           title="Voting Page"
-  //           text="You are not authorized to view this page."
-  //         />
-  //       </div>
-  //     </Section>
-  //   );
-  // }
   if (!elStarted && !elEnded) {
     return <NotInitialised />;
   }
-  if (!elStarted && elEnded) {
+  if (elStarted && !elEnded) {
     return (
       <Section>
         <div className="container  h-[32rem] items-center justify-center flex flex-col gap-6">
-          <h2 className="h2">Election has Ended</h2>
+          <h2 className="h2">Election has not ended, Please wait...</h2>
           <Button className="min-w-[200px]" href={"/results"}>
             View Results
           </Button>
@@ -154,29 +174,44 @@ const Results = () => {
     }
     if (currentvoter?.hasVoted) {
       return (
-        <div className="container  h-[32rem] items-center justify-center flex flex-col gap-6">
-          <h2 className="h2">Voting Page</h2>
-          <p className="body-2 mt-4 text-n-4">You've casted your vote.</p>
-          <Button className="min-w-[200px]" href={"/results"}>
-            See Results
-          </Button>
+        <div className="container h-fit items-center justify-center flex flex-col gap-6 p-8 w-full">
+          <h2 className=" h2 ">Results</h2>
+
+          <div className="flex flex-col items-center justify-center h-full px-8 gap-y-2">
+            <div className="h4">{showWinner()}</div>
+            <h2 className=" h4 ">
+              {elDetails?.electionTitle ?? "Campus Election"}
+            </h2>
+            <p className="body-2 text-lg text-n-4">
+              {elDetails?.organizationTitle ?? "Shree Jain Vidyalaya"}
+            </p>
+
+            <p className="text-md body-2">
+              {elDetails?.adminTitle ?? "Organiser"} -{" "}
+              {elDetails?.adminName ?? "Arya Sah"}
+            </p>
+          </div>
+
+          {/* {JSON.stringify(series)} */}
+
+          <Chart
+            options={{
+              labels,
+              legend: {
+                position: "top",
+                fontSize: "14px",
+                labels: {
+                  colors: "#fff",
+                },
+              },
+            }}
+            series={series}
+            type="pie"
+            width="500px"
+          />
         </div>
       );
     }
-    const castVote = async (id) => {
-      await electionInstance.methods
-        .vote(id)
-        .send({ from: account, gas: 1000000 });
-      window.location.reload();
-    };
-    const confirmVote = (id, header) => {
-      var r = window.confirm(
-        "Vote for " + header + " with Id " + id + ".\nAre you sure?"
-      );
-      if (r === true) {
-        castVote(id);
-      }
-    };
     return (
       <div className="container">
         <div className="container-main">
@@ -228,7 +263,7 @@ const Results = () => {
               <p className="body-2 mt-4 text-n-4">
                 You are not registered to vote. Please register first.
               </p>
-              <Button className="min-w-[200px]" href={"/registrations"}>
+              <Button className="min-w-[200px]" href={"/registration"}>
                 Registration Page
               </Button>
             </div>

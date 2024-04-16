@@ -75,7 +75,7 @@ const AddCandidate = () => {
         const admin = await instance.methods.admin().call();
         console.log("admin", instance);
         const candidateCnt = await instance?.methods.getTotalCandidate().call();
-        // console.log('candidate Count',candidateCnt);
+        console.log('candidate Count',candidateCnt);
         setCandidateCount(candidateCnt);
         let _candidates = [];
         for (let i = 0; i < candidateCnt; i++) {
@@ -122,9 +122,9 @@ const AddCandidate = () => {
         .send({ from: account, gas: 1000000 });
         console.log("candidate added");
     } catch (error) {
-      console.error(error);
+      console.error('error',error);
     } finally {
-      window.location.reload();
+      // window.location.reload();
     }
   };
 

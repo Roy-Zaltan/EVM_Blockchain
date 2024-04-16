@@ -138,7 +138,15 @@ const Home = () => {
     } else if (elEnded) {
       return (
         <>
-          <Heading title="Voting Ended." text="Thank you for voting." />
+          <Heading
+            title="Voting Ended."
+            text="Thank you for voting."
+            buttonContent={
+              <Button href="/results" white className={'mt-4'}>
+                See Results
+              </Button>
+            }
+          />
         </>
       );
     }
