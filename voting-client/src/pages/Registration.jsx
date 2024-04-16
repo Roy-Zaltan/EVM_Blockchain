@@ -67,11 +67,11 @@ const Registration = () => {
           .call();
         console.log("voter Details", voterDetails);
         if (voterDetails) {
-          console.log("voterDetails", voterDetails);
+          console.log("voterDetails", voterDetails,voterDetails?.name?.split(" "));
           formRef.current["floating_first_name"].value =
             voterDetails?.name?.split(" ")[0] ?? "";
           formRef.current["floating_last_name"].value =
-            voterDetails?.name?.split(" ")[1] ?? "";
+            voterDetails?.name?.split(" ")[2] ?? "";
           formRef.current["phone_number"].value = voterDetails?.phone;
           formRef.current["aadhar_number"].value = voterDetails?.aadhar;
           setVoterDetails((voterDetails) => ({
@@ -106,7 +106,7 @@ const Registration = () => {
     });
     try {
       await electionInstance.methods
-        .registerAsVoter(firstName + lastName, phone,aadhar)
+        .registerAsVoter(firstName +" "+ lastName, phone,aadhar)
         .send({ from: account, gas: 1000000 });
       window.location.reload();
     } catch (e) {

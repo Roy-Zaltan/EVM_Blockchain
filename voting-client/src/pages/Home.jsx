@@ -109,8 +109,8 @@ const Home = () => {
           <div className="relative">
             <div className="relative z-1 flex flex-row items-center h-[39rem] mb-5 p-8 border border-n-1/10 rounded-3xl overflow-hidden lg:p-20 xl:h-fit">
               <div className="w-full h-fit rounded-3xl">
-                <div className="flex flex-col items-center justify-center h-full p-8 gap-y-6">
-                  <h2 className=" h2 ">
+                <div className="flex flex-col items-center justify-center h-full px-8 gap-y-6">
+                  <h2 className=" h3 ">
                     {elDetails?.electionTitle ?? "Campus Election"}
                   </h2>
                   <p className="body-2 text-xl mt-4 text-n-4">
@@ -126,7 +126,7 @@ const Home = () => {
                   </p>
                 </div>
                 <div className="py-4 w-full flex justify-center items-center">
-                  <Button href="/pricing" white>
+                  <Button href="/voting" white>
                     Vote Now
                   </Button>
                 </div>
@@ -166,16 +166,8 @@ const Home = () => {
             elStarted={elStarted}
             elEnded={elEnded}
             elDetails={elDetails}
+            endElection={endElection}
           />
-          <div className="container">
-            {elStarted && !elEnded && (
-              <div className="flex justify-center items-center gap-4">
-                <Button onClick={endElection} white>
-                  End Election
-                </Button>
-              </div>
-            )}
-          </div>
         </>
       ) : (
         <Section id="form">

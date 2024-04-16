@@ -1,8 +1,9 @@
 import React from "react";
+import Button from "../Button";
 
 const baseURL = "https://authenticator-backend-jj7b.onrender.com";
 
-const Verification = ({ votedCandidate,confirmVote }) => {
+const Verification = ({ votedCandidate, confirmVote }) => {
   const [loading, toggleLoading] = React.useState(false);
   const [success, toggleSuccess] = React.useState(false);
   const pollingFunction = (baseURL, loginId) => {
@@ -83,24 +84,27 @@ const Verification = ({ votedCandidate,confirmVote }) => {
     pollingFunction(baseURL, data.login_id);
   };
   return (
-    <div className="w-full h-screen bg-gray-800 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-[50%]">
-        <h2 className="text-2xl font-bold mb-4">confirm Your Vote</h2>
-        <p className="text-gray-600 italic">
+    <div className="w-full h-screen bg-transparent flex items-center justify-center ">
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="border-gray-600 bg-stroke-1 p-8 rounded-lg shadow-lg w-[50%] flex justify-start items-center flex-col gap-y-[16px]"
+      >
+        <h2 className="h3">Confirm Your Vote</h2>
+        <p className="body-2 italic text-center">
           You'll be notified in your mobile application to verify your
           identity.Please open and register with same number you register on
           this platform.
         </p>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 mt-4 rounded"
+        <Button
+          className={"w-[220px]"}
           onClick={() => {
             success
               ? confirmVote(votedCandidate.id, votedCandidate.header)
               : verifyUser();
           }}
         >
-          {success ? "Vote" : "Verify"}
-        </button>
+          {loading ? "verifying..." : success ? "Vote" : "Verify"}
+        </Button>
       </div>
     </div>
   );

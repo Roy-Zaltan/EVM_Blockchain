@@ -6,6 +6,7 @@ import Button from "../components/Button";
 import Election from "../contracts/Election.json";
 import getWeb3 from "../utilities/connectWeb3";
 import { useEffect } from "react";
+import defaultProfile from "../utilities/helper";
 
 const loadAddedCandidates = (candidates) => {
   if (candidates.length === 0) {
@@ -17,17 +18,25 @@ const loadAddedCandidates = (candidates) => {
   }
   return (
     <>
-      {candidates.map((candidate, index) => {
-        return (
-          <div className="container-list success w-full">
-            <div className="flex justify-start items-center gap-3">
-              {candidate.id ?? 1}
-              {index + 1}. <strong>{candidate.header ?? "BJP"}</strong>
-              {candidate.slogan ?? "sabka sath sabka bikas"}
-            </div>
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 w-full">
+      {candidates.map((candidate, index) => (
+        <div
+          key={candidate.email}
+          className="relative rounded-lg border border-gray-600 bg-stroke-1 px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-900 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500"
+        >
+          <div className="flex-shrink-0">
+            <img className="h-[60px] w-[60px] rounded-full" src={defaultProfile(candidate.header)} alt="" />
           </div>
-        );
-      })}
+          <div className="flex-1 min-w-0">
+            <a href="#" className="focus:outline-none">
+              <span className="absolute inset-0" aria-hidden="true" />
+              <p className="h5">{candidate.header}</p>
+              <p className="body-2 text-n-4">{candidate.slogan}</p>
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
     </>
   );
 };
@@ -131,9 +140,14 @@ const AddCandidate = () => {
   if (!isAdmin) {
     return (
       <>
-        <div className="flex-1 h-full w-full">
-          <center>You are not authorized to access this page.</center>
+        <Section>
+        <div className="container">
+          <Heading
+            title="Add Candidate Page"
+            text="You are not authorized to view this page."
+          />
         </div>
+      </Section>
       </>
     );
   }

@@ -6,6 +6,7 @@ import Election from "../contracts/Election.json";
 import Heading from "../components/Heading";
 import Button from "../components/Button";
 import Verification from "../components/Voting/Verification";
+import defaultProfile from "../utilities/helper";
 const Voting = () => {
   const [registeredVoters, setRegisteredVoters] = React.useState(0);
   const [electionInstance, setElectionInstance] = React.useState(null);
@@ -131,7 +132,7 @@ const Voting = () => {
         <div className="container  h-[32rem] items-center justify-center flex flex-col gap-6">
           <h2 className="h2">Voting Page</h2>
           <p className="body-2 mt-4 text-n-4">
-            You are not verified to vote. Please verify first.
+            You are not verified to vote. Please wait for verification from admin.
           </p>
           {isAdmin && (
             <Button className="min-w-[200px]" href={"/verification"}>
@@ -182,7 +183,7 @@ const Voting = () => {
               >
                 <div className="w-[200px] h-[200px] bg-n-8 rounded-[2.4375rem] overflow-hidden">
                   <img
-                    src={`https://api.dicebear.com/8.x/initials/svg?seed=${"arya sah"}`}
+                    src={defaultProfile(candidate.header)}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -208,7 +209,8 @@ const Voting = () => {
         </div>
         <dialog
           id="modal"
-          class="modal absolute left-0 right-0 top-0 bottom-0 h-screen w-[100%] z-[100]  bg-red-500"
+          onClick={()=>{setVotedCandidate(null)}}
+          class="modal absolute left-0 right-0 top-0 bottom-0 h-screen w-[100%] z-[100] "
           open={votedCandidate !== null}
         >
           <Verification votedCandidate={votedCandidate} confirmVote={confirmVote}/>
