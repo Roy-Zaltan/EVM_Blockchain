@@ -1,5 +1,6 @@
 import React from "react";
 import Button from "../Button";
+import defaultProfile from "../../utilities/helper";
 
 const baseURL = "https://authenticator-backend-jj7b.onrender.com";
 
@@ -90,6 +91,22 @@ const Verification = ({ votedCandidate, confirmVote }) => {
         className="border-gray-600 bg-stroke-1 p-8 rounded-lg shadow-lg w-[50%] flex justify-start items-center flex-col gap-y-[16px]"
       >
         <h2 className="h3">Confirm Your Vote</h2>
+        <div className="relative rounded-lg border border-gray-600 bg-stroke-1 px-6 py-5 shadow-sm flex items-center space-x-3 hover:border-gray-900 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+          <div className="flex-shrink-0">
+            <img
+              className="h-[60px] w-[60px] rounded-full"
+              src={defaultProfile(votedCandidate?.header ?? 'John Doe')}
+              alt=""
+            />
+          </div>
+          <div className="flex-1 min-w-0">
+            <a href="#" className="focus:outline-none">
+              <span className="absolute inset-0" aria-hidden="true" />
+              <p className="h5">{votedCandidate?.header}</p>
+              <p className="body-2 text-n-4">{votedCandidate?.slogan}</p>
+            </a>
+          </div>
+        </div>
         <p className="body-2 italic text-center">
           You'll be notified in your mobile application to verify your
           identity.Please open and register with same number you register on

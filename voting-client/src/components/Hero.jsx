@@ -8,8 +8,11 @@ import { useRef } from "react";
 import Generating from "./Generating";
 import Notification from "./Notification";
 import CompanyLogos from "./CompanyLogos";
+import {} from "i18next";
+import { useTranslation } from "react-i18next";
 
 const Hero = () => {
+  const [t] = useTranslation("common");
   const parallaxRef = useRef(null);
 
   return (
@@ -23,9 +26,9 @@ const Hero = () => {
       <div className="container relative" ref={parallaxRef}>
         <div className="relative z-1 max-w-[62rem] mx-auto text-center mb-[3.875rem] md:mb-20 lg:mb-[6.25rem]">
           <h1 className="h1 mb-6">
-            Secure and Transparent &nbsp;&nbsp; {` `}
+            {t(`Secure and Transparent`)} <br />
             <span className="inline-block relative">
-              Elections{" "}
+              {t(`Elections`)}{" "}
               <img
                 src={curve}
                 className="absolute top-full left-0 w-full xl:-mt-2"
@@ -36,12 +39,12 @@ const Hero = () => {
             </span>
           </h1>
           <p className="body-1 max-w-3xl mx-auto mb-6 text-n-2 lg:mb-8">
-            Empowering Trust and Transparency through Blockchain Technology -
-            Redefining the Future of Voting for Inclusive and Democratic
-            Societies.
+            {t(
+              `Empowering Trust and Transparency through Blockchain Technology - Redefining the Future of Voting for Inclusive and Democratic Societies`
+            )}
           </p>
           <Button href="/voting" white>
-            Get started
+            {t(`Get Started`)}
           </Button>
         </div>
         <div className="relative max-w-[23rem] mx-auto md:max-w-5xl xl:mb-24">

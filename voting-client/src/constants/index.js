@@ -59,7 +59,7 @@ export const navigation = [
   },
   {
     id: "4",
-    title: "How it Works",
+    title: "Change Language",
     url: "/verification",
   },
   {

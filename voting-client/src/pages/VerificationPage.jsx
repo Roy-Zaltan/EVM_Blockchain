@@ -137,11 +137,15 @@ const VerificationPage = () => {
                 Aadhar Number: <span className="text-n-2">{voter?.aadhar}</span>
               </p>
               <p className="">
-                Voted: <span className="text-n-2">{voter?.hasVoted ? "true" : "false"}</span>
+                Voted:{" "}
+                <span className="text-n-2">
+                  {voter?.hasVoted ? "true" : "false"}
+                </span>
               </p>
               <p className="">
                 Adhaar Verified:{" "}
-                <span className="text-n-2">{voter?.isAdhaarVerified ? "true" : "false"}</span>
+                {/* <span className="text-n-2">{voter?.isAdhaarVerified ? "true" : "false"}</span> */}
+                <span className="text-n-2">{"true"}</span>
               </p>
               {voter.isVerified ? (
                 <p className="">

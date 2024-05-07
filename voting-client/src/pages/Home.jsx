@@ -7,6 +7,7 @@ import Section from "../components/Section";
 import Heading from "../components/Heading";
 import AdminHome from "../components/Home/AdminHome";
 import Button from "../components/Button";
+import { useTranslation } from "react-i18next";
 const Home = () => {
   const [electionInstance, setElectionInstance] = React.useState(null);
   const [account, setAccount] = React.useState(null);
@@ -15,6 +16,7 @@ const Home = () => {
   const [elStarted, setElStarted] = React.useState(false);
   const [elEnded, setElEnded] = React.useState(false);
   const [elDetails, setElDetails] = React.useState(null);
+  const [t, i18n] = useTranslation('common');
 
   const endElection = async () => {
     try {
@@ -129,6 +131,7 @@ const Home = () => {
                   <Button href="/voting" white>
                     Vote Now
                   </Button>
+
                 </div>
               </div>
             </div>
@@ -159,6 +162,7 @@ const Home = () => {
   return (
     <>
       <Hero />
+     
       {/* <Section
         className="pt-[12rem] -mt-[5.25rem]"
         crosses
